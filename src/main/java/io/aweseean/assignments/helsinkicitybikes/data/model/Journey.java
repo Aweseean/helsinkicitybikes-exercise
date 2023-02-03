@@ -1,12 +1,9 @@
 package io.aweseean.assignments.helsinkicitybikes.data.model;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name="journeys")
@@ -19,24 +16,57 @@ public class Journey {
     private String departureDate;
     @Column(name="return_date")
     private String returnDate;
-    @Column(name="departure_station_id") // number with zero on ahead? not int, maybe just string?
+    @Column(name="departure_station_id")
     private String departureStationId;
-    @Column(name="departure_station")
-    private String departureStation;
-    @Column(name="return_station_id") // number with zero on ahead? not int, maybe just string?
+    @ManyToOne
+    @JoinColumn(name="departure_station")
+    private Station departureStation;
+    @Column(name="return_station_id")
     private String returnStationId;
-    @Column(name="return_station")
-    private String returnStation;
+    @ManyToOne
+    @JoinColumn(name="return_station")
+    private Station returnStation;
     @Column(name="distance_meters")
     private int distanceMeters;
     @Column(name="duration_seconds")
     private int durationSeconds;
 
-    public long getId() {
+    public Journey(String departureDate, String returnDate,
+                   String departureStationId, Station departureStation,
+                   String returnStationId, Station returnStation,
+                   int distanceMeters, int durationSeconds) {
+        this.departureDate = departureDate;
+        this.returnDate = returnDate;
+        this.departureStationId = departureStationId;
+        this.departureStation = departureStation;
+        this.returnStationId = returnStationId;
+        this.returnStation = returnStation;
+        this.distanceMeters = distanceMeters;
+        this.durationSeconds = durationSeconds;
+    }
+
+    Journey() {}
+
+    /*@ManyToOne
+    @JoinColumn(name="departure_station", referencedColumnName="station_id")
+    private Station departureStation;
+    @ManyToOne
+    @JoinColumn(name="return_station", referencedColumnName="station_id")
+    private Station returnStation;
+    @JoinTable(name="journey_stations", joinColumns={
+            @JoinColumn(name="fk_journey_id", referencedColumnName="journey_id"),
+            @JoinColumn(name="fk_departure_station_id", referencedColumnName="departure_station_id"),
+            @JoinColumn(name="fk_return_station_id", referencedColumnName="return_station_id")
+    })
+    private List<Journey> journeyStations;
+    @JoinTable(name="journey_stations")
+    @JoinColumn(name="journey_return_station_id", referencedColumnName="return_station_id"))*/
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -64,11 +94,11 @@ public class Journey {
         this.departureStationId = departureStationId;
     }
 
-    public String getDepartureStation() {
+    public Station getDepartureStation() {
         return departureStation;
     }
 
-    public void setDepartureStation(String departureStation) {
+    public void setDepartureStation(Station departureStation) {
         this.departureStation = departureStation;
     }
 
@@ -80,11 +110,11 @@ public class Journey {
         this.returnStationId = returnStationId;
     }
 
-    public String getReturnStation() {
+    public Station getReturnStation() {
         return returnStation;
     }
 
-    public void setReturnStation(String returnStation) {
+    public void setReturnStation(Station returnStation) {
         this.returnStation = returnStation;
     }
 
@@ -111,9 +141,9 @@ public class Journey {
         sb.append(", departureDate='").append(departureDate).append('\'');
         sb.append(", returnDate='").append(returnDate).append('\'');
         sb.append(", departureStationId='").append(departureStationId).append('\'');
-        sb.append(", departureStation='").append(departureStation).append('\'');
+        sb.append(", departureStation=").append(departureStation);
         sb.append(", returnStationId='").append(returnStationId).append('\'');
-        sb.append(", returnStation='").append(returnStation).append('\'');
+        sb.append(", returnStation=").append(returnStation);
         sb.append(", distanceMeters=").append(distanceMeters);
         sb.append(", durationSeconds=").append(durationSeconds);
         sb.append('}');
