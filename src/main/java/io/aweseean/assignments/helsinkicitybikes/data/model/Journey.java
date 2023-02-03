@@ -3,8 +3,6 @@ package io.aweseean.assignments.helsinkicitybikes.data.model;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 @Table(name="journeys")
 public class Journey {
@@ -18,22 +16,20 @@ public class Journey {
     private String returnDate;
     @Column(name="departure_station_id")
     private String departureStationId;
-    @ManyToOne
-    @JoinColumn(name="departure_station")
-    private Station departureStation;
+    @Column(name="departure_station")
+    private String departureStation;
     @Column(name="return_station_id")
     private String returnStationId;
-    @ManyToOne
-    @JoinColumn(name="return_station")
-    private Station returnStation;
+    @Column(name="return_station")
+    private String returnStation;
     @Column(name="distance_meters")
     private int distanceMeters;
     @Column(name="duration_seconds")
     private int durationSeconds;
 
     public Journey(String departureDate, String returnDate,
-                   String departureStationId, Station departureStation,
-                   String returnStationId, Station returnStation,
+                   String departureStationId, String departureStation,
+                   String returnStationId, String returnStation,
                    int distanceMeters, int durationSeconds) {
         this.departureDate = departureDate;
         this.returnDate = returnDate;
@@ -45,7 +41,7 @@ public class Journey {
         this.durationSeconds = durationSeconds;
     }
 
-    Journey() {}
+    protected Journey() {}
 
     /*@ManyToOne
     @JoinColumn(name="departure_station", referencedColumnName="station_id")
@@ -94,11 +90,11 @@ public class Journey {
         this.departureStationId = departureStationId;
     }
 
-    public Station getDepartureStation() {
+    public String getDepartureStation() {
         return departureStation;
     }
 
-    public void setDepartureStation(Station departureStation) {
+    public void setDepartureStation(String departureStation) {
         this.departureStation = departureStation;
     }
 
@@ -110,11 +106,11 @@ public class Journey {
         this.returnStationId = returnStationId;
     }
 
-    public Station getReturnStation() {
+    public String getReturnStation() {
         return returnStation;
     }
 
-    public void setReturnStation(Station returnStation) {
+    public void setReturnStation(String returnStation) {
         this.returnStation = returnStation;
     }
 

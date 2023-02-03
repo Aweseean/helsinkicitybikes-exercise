@@ -32,9 +32,14 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
-        String url = "https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv";
+        String url = "https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv";
+        csvService.saveJourneys(url);
+
+        journeyRepository.findByDepartureStationId("004").forEach(System.out::println);
+
+        /*String url = "https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv";
         csvService.save(url);
-        csvService.getAllStations().forEach(System.out::println);
+        csvService.getAllStations().forEach(System.out::println);*/
 
         /*List<Station> stations = csvFetch.csvToStations(is);
         stationRepository.saveAll(stations);

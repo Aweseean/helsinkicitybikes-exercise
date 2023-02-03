@@ -36,14 +36,14 @@ public class Station {
     private double x;
     @Column(name="coordinate_y")
     private double y;
-    @OneToMany(mappedBy= "departureStation",
+    /*@OneToMany(mappedBy= "departureStation",
             fetch=FetchType.EAGER,
             cascade=CascadeType.ALL)
     private List<Journey> journeysFrom;
     @OneToMany(mappedBy="returnStation",
             fetch=FetchType.EAGER,
             cascade=CascadeType.ALL)
-    private List<Journey> journeysTo;
+    private List<Journey> journeysTo;*/
 
     public Station(String stationName, int fid,
                    String stationId, String stationNameFI,
@@ -170,22 +170,6 @@ public class Station {
 
     public void setY(double y) {
         this.y = y;
-    }
-
-    public List<Journey> getJourneysFrom() {
-        return journeysFrom;
-    }
-
-    public void setJourneysFrom(List<Journey> journeysFrom) {
-        this.journeysFrom = journeysFrom;
-    }
-
-    public List<Journey> getJourneysTo() {
-        return journeysTo;
-    }
-
-    public void setJourneysTo(List<Journey> journeysTo) {
-        this.journeysTo = journeysTo;
     }
 
     @Override
