@@ -1,9 +1,6 @@
 package io.aweseean.assignments.helsinkicitybikes.util;
 
-import io.aweseean.assignments.helsinkicitybikes.data.repository.JourneyRepository;
-import io.aweseean.assignments.helsinkicitybikes.data.repository.StationRepository;
 import io.aweseean.assignments.helsinkicitybikes.service.CSVService;
-import io.aweseean.assignments.helsinkicitybikes.service.JourneyService;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -11,17 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class AppStartupEvent implements ApplicationListener<ApplicationReadyEvent> {
 
-    private final JourneyRepository journeyRepository;
-    private final StationRepository stationRepository;
-    private final JourneyService journeyService;
     private final CSVService csvService;
 
-
-
-    public AppStartupEvent(JourneyRepository journeyRepository, StationRepository stationRepository, JourneyService journeyService, CSVService csvService) {
-        this.journeyRepository = journeyRepository;
-        this.stationRepository = stationRepository;
-        this.journeyService = journeyService;
+    public AppStartupEvent(CSVService csvService) {
         this.csvService = csvService;
     }
 
@@ -36,8 +25,8 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
         // Journeys from newest to oldest to database
 
         csvService.saveStations(stationURL);
-        csvService.saveJourneys(journeyURL1);
-        csvService.saveJourneys(journeyURL2);
+        //csvService.saveJourneys(journeyURL1);
+        //csvService.saveJourneys(journeyURL2);
         csvService.saveJourneys(journeyURL3);
 
 

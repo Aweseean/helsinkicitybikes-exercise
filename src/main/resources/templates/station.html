@@ -19,6 +19,8 @@
             <h3 class="card-title" th:text="${station.stationId}">Station ID</h3>
             <h5 class="card-subtitle" th:text="${station.stationName}">Station Name</h5>
             <p th:text="'Station Address: ' + ${station.addressFI}">Address</p>
+            <p th:text="'Departures: ' + ${departures}">Departures</p>
+            <p th:text="'Returns: ' + ${returns}">Returns</p>
             <!--<a class="btn btn-primary btn-sm" href="#" th:href="@{mailto:{to}(to=${customer.email})}">Send Email</a>-->
         </div>
     </div>

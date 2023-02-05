@@ -1,6 +1,5 @@
 package io.aweseean.assignments.helsinkicitybikes.web;
 
-import io.aweseean.assignments.helsinkicitybikes.data.model.Journey;
 import io.aweseean.assignments.helsinkicitybikes.data.model.Station;
 import io.aweseean.assignments.helsinkicitybikes.data.repository.JourneyRepository;
 import io.aweseean.assignments.helsinkicitybikes.data.repository.StationRepository;
@@ -22,12 +21,10 @@ import java.util.Optional;
 @RequestMapping("/stations")
 public class StationController {
 
-    private final JourneyRepository journeyRepository;
     private final StationRepository stationRepository;
     private final StationService stationService;
 
-    public StationController(JourneyRepository journeyRepository, StationRepository stationRepository, StationService stationService) {
-        this.journeyRepository = journeyRepository;
+    public StationController(StationRepository stationRepository, StationService stationService) {
         this.stationRepository = stationRepository;
         this.stationService = stationService;
     }
@@ -59,7 +56,14 @@ public class StationController {
         }
         model.addAttribute("station", station.get());
 
-        //Optional<Journey> departures = this.journeyRepository.findByDepartureStationId(stationId);
+        int departures = this.stationService.getDeparturesByStation(stationId);
+        int returns = this.stationService.getReturnsByStation(stationId);
+
+        System.out.println("departures "+departures);
+        System.out.println("returns "+returns);
+
+        model.addAttribute("departures", departures);
+        model.addAttribute("returns", returns);
         model.addAttribute("module", "stations");
         return "station";
     }
