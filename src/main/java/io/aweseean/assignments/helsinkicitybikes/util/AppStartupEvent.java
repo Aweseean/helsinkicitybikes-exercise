@@ -17,6 +17,8 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
+        // Fetches all the datasets at startup
+
         String stationURL = "https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv";
         String journeyURL1 = "https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv";
         String journeyURL2 = "https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv";
@@ -25,8 +27,8 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
         // Journeys from newest to oldest to database
 
         csvService.saveStations(stationURL);
-        //csvService.saveJourneys(journeyURL1);
-        //csvService.saveJourneys(journeyURL2);
+        csvService.saveJourneys(journeyURL1);
+        csvService.saveJourneys(journeyURL2);
         csvService.saveJourneys(journeyURL3);
 
 

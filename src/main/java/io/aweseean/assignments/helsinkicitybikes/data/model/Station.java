@@ -1,11 +1,11 @@
 package io.aweseean.assignments.helsinkicitybikes.data.model;
-/*
-    Notice that CSV datasets have FID as first field and stationID as second..
- */
+
 import jakarta.persistence.*;
 
 import java.util.List;
-
+/*
+    Notice that CSV datasets have FID as first field and stationID as second..
+ */
 @Entity
 @Table(name="stations")
 public class Station {

@@ -1,28 +1,27 @@
 CREATE TABLE stations(
-    station_name varchar(64)  primary key,
-    fid int not null,
-    station_id  varchar(3) not null,
-    station_name_fi varchar(64)  not null,
-    station_name_se varchar(64)  not null,
-    address_fi varchar(64)  not null,
-    address_se varchar(64)  not null,
-    city_fi varchar(64),
-    city_se varchar(64),
-    operator varchar(64),
-    capacity int  not null,
-    coordinate_x decimal(9,6) not null,
-    coordinate_y decimal(8,6) not null
+    station_name VARCHAR(64) PRIMARY KEY,
+    fid INT NOT NULL,
+    station_id VARCHAR(3) NOT NULL,
+    station_name_fi VARCHAR(64) NOT NULL,
+    station_name_se VARCHAR(64) NOT NULL,
+    address_fi VARCHAR(64) NOT NULL,
+    address_se VARCHAR(64) NOT NULL,
+    city_fi VARCHAR(64),
+    city_se VARCHAR(64),
+    operator VARCHAR(64),
+    capacity INT NOT NULL,
+    coordinate_x decimal(9,6) NOT NULL,
+    coordinate_y decimal(8,6) NOT NULL
 );
 
 CREATE TABLE journeys (
-    journey_id bigint auto_increment primary key,
-    departure_date  varchar(19)  not null,
-    return_date varchar(19)  not null,
-    departure_station_id varchar(3)  not null,
-    departure_station varchar(64)  not null,
-    return_station_id varchar(3)  not null,
-    return_station varchar(64)  not null,
-    distance_meters int  not null,
-    duration_seconds int  not null
+    journey_id bigint AUTO_INCREMENT PRIMARY KEY,
+    departure_date VARCHAR(19) NOT NULL,
+    return_date VARCHAR(19) NOT NULL,
+    departure_station_id VARCHAR(3) NOT NULL,
+    departure_station VARCHAR(64) NOT NULL,
+    return_station_id VARCHAR(3) NOT NULL,
+    return_station VARCHAR(64) NOT NULL,
+    distance_meters INT NOT NULL,
+    duration_seconds INT NOT NULL
 );
-

@@ -1,7 +1,6 @@
 package io.aweseean.assignments.helsinkicitybikes.web;
 
 import io.aweseean.assignments.helsinkicitybikes.data.model.Station;
-import io.aweseean.assignments.helsinkicitybikes.data.repository.JourneyRepository;
 import io.aweseean.assignments.helsinkicitybikes.data.repository.StationRepository;
 import io.aweseean.assignments.helsinkicitybikes.service.StationService;
 import org.springframework.data.domain.Page;
