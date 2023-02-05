@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -42,18 +41,4 @@ public class JourneyController {
         model.addAttribute("module", "journeys");
         return "journeys";
     }
-
-
-    /*@GetMapping
-    public String getAllJourneys(Model model){
-        Iterable<Journey> journeysIterable = this.journeyRepository.findAll();
-        List<Journey> journeys = new ArrayList<>();
-        journeysIterable.forEach(journeys::add);
-        System.out.println(journeys.size());
-        List<Journey> journeys2 = journeys.subList(0, 5);
-        System.out.println(journeys2.size());
-        model.addAttribute("journeys", journeys2);
-        model.addAttribute("module", "journeys");
-        return "journeys";
-    }*/
 }

@@ -13,58 +13,75 @@
 <body>
 <div th:replace="~{header :: header}"></div>
 <div class="container" >
-    <h1 class="text-center">Stations</h1>
-    <table class="table">
-        <thead>
-            <th scope="col">FID</th>
-            <th scope="col">Station ID</th>
-            <th scope="col">Station Name</th>
-            <th scope="col">Address</th>
-            <th scope="col">City</th>
-            <th scope="col">Operator</th>
-            <th scope="col">Capacity</th>
-            <th scope="col">Coordinates</th>
-        </thead>
-        <tbody>
-            <a class="" href="#"><!--th:href="@{/stations/{id}(id=${station.stationId})}"-->
-                <tr th:each="station : ${stations}">
-                    <td th:text="${station.fid}">FID</td>
-                    <td th:text="${station.stationId}">Station ID</td>
-                    <td th:text="${station.stationName}">Station Name</td>
-                    <td th:text="${station.addressFI}">Address</td>
-                    <td th:text="${station.cityFI}">City</td>
-                    <td th:text="${station.operator}">Operator</td>
-                    <td th:text="${station.capacity}">Capacity</td>
-                    <td th:text="${station.x} + ', ' + ${station.y}">Coordinates</td>
-                </tr>
-            </a>
-        </tbody>
-    </table>
-    <div th:if="${totalPages > 1}">
-        <div class="row col-sm-10 mx-auto">
-            <div class="col-sm-2">
-                Total Stations: [[${totalItems}]]
-            </div>
-            <div class="col-sm-1">
-                <a th:if="${currentPage > 1}" th:href="@{'/stations/'}"> < < </a>
-            </div>
-            <div class="col-sm-1">
-                <a th:if="${currentPage > 1}" th:href="@{'/stations/' + ${currentPage - 1}}">Previous</a>
-            </div>
-            <div class="col-sm-4 text-center">
-                <span th:each="i: ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1,
-                 currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
-                  <a th:if="${currentPage != i}" th:href="@{'/stations/' + ${i}}">[[${i}]]</a>
-                  <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-                </span>
-            </div>
-            <div class="col-sm-1">
-                <a th:if="${currentPage < totalPages}" th:href="@{'/stations/' + ${currentPage + 1}}">Next</a>
-                <span th:unless="${currentPage < totalPages}">Next</span>
-            </div>
-            <div class="col-sm-1">
-                <a th:if="${currentPage < totalPages}" th:href="@{'/stations/' + ${totalPages}}"> > > </a>
-                <span th:unless="${currentPage < totalPages}">Last</span>
+    <div class="my-3">
+        <h1 class="text-center">Stations</h1>
+        <table class="table">
+            <thead>
+                <th scope="col">FID</th>
+                <th scope="col">Station ID</th>
+                <th scope="col">Station Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">City</th>
+                <th scope="col">Operator</th>
+                <th scope="col">Capacity</th>
+                <th scope="col">Coordinates</th>
+                <th scope="col"></th>
+            </thead>
+            <tbody>
+                <!--th:href="@{'/stations/station/' + ${station.stationId}}"> th:href="@{/stations/{id}(id=${station.stationId})}"-->
+                    <tr th:each="station : ${stations}">
+                        <a th:href="@{'/'}">
+                            <td th:text="${station.fid}">FID</td>
+                            <td>
+                                <a th:text="${station.stationId}"
+                                   th:href="@{'/stations/station/' + ${station.stationId}}">Station ID
+                                </a>
+                            </td>
+                            <td>
+                                <a th:text="${station.stationName}"
+                                   th:href="@{'/stations/station/' + ${station.stationId}}">Station Name
+                                </a>
+                            </td>
+                            <td th:text="${station.addressFI}">Address</td>
+                            <td th:if="${!#strings.isEmpty(station.cityFI)}" th:text="${station.cityFI}">City</td>
+                            <td th:unless="${!#strings.isEmpty(station.cityFI)}">-</td>
+                            <td th:if="${!#strings.isEmpty(station.operator)}" th:text="${station.operator}">Operator</td>
+                            <td th:unless="${!#strings.isEmpty(station.operator)}">-</td>
+                            <td th:text="${station.capacity}">Capacity</td>
+                            <td th:text="${station.x} + ', ' + ${station.y}">Coordinates</td>
+                            <td>
+                                <a class="btn" href="#" th:href="@{'/stations/station/' + ${station.stationId}}">View</a>
+                            </td>
+                        </a>
+                    </tr>
+            </tbody>
+        </table>
+        <div th:if="${totalPages > 1}">
+            <div class="row col-sm-10 mx-auto">
+                <div class="col-sm-2">
+                    Total Stations: [[${totalItems}]]
+                </div>
+                <div class="col-sm-1">
+                    <a th:if="${currentPage > 1}" th:href="@{'/stations/'}"> < < </a>
+                </div>
+                <div class="col-sm-1">
+                    <a th:if="${currentPage > 1}" th:href="@{'/stations/' + ${currentPage - 1}}">Previous</a>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <span th:each="i: ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1,
+                     currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
+                      <a th:if="${currentPage != i}" th:href="@{'/stations/' + ${i}}">[[${i}]]</a>
+                      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                    </span>
+                </div>
+                <div class="col-sm-1">
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/stations/' + ${currentPage + 1}}">Next</a>
+                    <span th:unless="${currentPage < totalPages}">Next</span>
+                </div>
+                <div class="col-sm-1">
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/stations/' + ${totalPages}}"> > > </a>
+                    <span th:unless="${currentPage < totalPages}">Last</span>
+                </div>
             </div>
         </div>
     </div>

@@ -28,31 +28,20 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
-        String url = "https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv";
-        String url2 = "https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv";
+        String stationURL = "https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv";
+        String journeyURL1 = "https://dev.hsl.fi/citybikes/od-trips-2021/2021-07.csv";
+        String journeyURL2 = "https://dev.hsl.fi/citybikes/od-trips-2021/2021-06.csv";
+        String journeyURL3 = "https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv";
 
-        csvService.saveStations(url);
-        csvService.saveJourneys(url2);
+        // Journeys from newest to oldest to database
 
-        //journeyService.getAllJourneysPageable();
+        csvService.saveStations(stationURL);
+        csvService.saveJourneys(journeyURL1);
+        csvService.saveJourneys(journeyURL2);
+        csvService.saveJourneys(journeyURL3);
 
-        /*<Journey> journeys = journeyRepository.findAll(PageRequest.of(0, 10));
-        System.out.println("\nTotal number of journeys=" + journeys.getTotalElements());
-        System.out.println("Total number of 10-element-pages=" + journeys.getTotalPages());
-        journeys.forEach(System.out::println);
 
-        /*journeyRepository.findByDepartureStationId("004").forEach(System.out::println);
-        stationRepository.findAll().forEach(System.out::println);
-
-        /*String url = "https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv";
-        csvService.save(url);
-        csvService.getAllStations().forEach(System.out::println);*/
-
-        /*List<Station> stations = csvFetch.csvToStations(is);
-        stationRepository.saveAll(stations);
-        stationRepository.findAll().forEach(System.out::println);
-
-        //test stations
+        /*test stations
         Station hanasaari = stationRepository.save(new Station("Hanasaari",1,"501",
                 "Hanasaari", "Hanaholmen",
                  "Hanasaarenranta 1",

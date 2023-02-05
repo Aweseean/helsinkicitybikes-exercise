@@ -7,8 +7,6 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -28,7 +26,8 @@ public class CSVFetch {
     public static boolean hasCSVFormat(URLConnection urlConnection) {
 
         if (TYPE.equals(urlConnection.getContentType()) ^ TYPE2.equals(urlConnection.getContentType())) {
-            System.out.println(urlConnection.getContentType());
+            System.out.println("CSV URL: " + urlConnection.getURL());
+            System.out.println("Content type:" + urlConnection.getContentType());
             return true;
         }
 
@@ -37,6 +36,7 @@ public class CSVFetch {
 
     public List<Station> csvToStations(String url) {
 
+        // Might be an issue, if CSV is empty
         InputStream is = null;
 
         try {
@@ -52,14 +52,10 @@ public class CSVFetch {
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              CSVParser csvParser = new CSVParser(fileReader,
                      CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
-
+            // CSVFormat.with methods deprecated, but work for now
             List<Station> stations = new ArrayList<>();
 
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
-
-            /*for (CSVRecord csvRecord : csvRecords) {
-                System.out.println(csvRecord);
-            }*/
 
             Iterator<CSVRecord> it = csvRecords.iterator();
 
@@ -67,7 +63,7 @@ public class CSVFetch {
                 CSVRecord csvRecord = it.next();
                  Station station = new Station(
                         csvRecord.get("Name"),
-                        Integer.parseInt(csvRecord.get("\uFEFFFID")), // ??? empty character at start of the file
+                        Integer.parseInt(csvRecord.get("\uFEFFFID")), // empty character at start of the file
                         csvRecord.get("ID"),
                         csvRecord.get("Nimi"),
                         csvRecord.get("Namn"),
@@ -82,26 +78,6 @@ public class CSVFetch {
                 );
                 stations.add(station);
             }
-
-            /*for (CSVRecord csvRecord : csvRecords) {
-                Station station = new Station(
-                        csvRecord.get("Name"),
-                        Integer.parseInt(csvRecord.get("\uFEFFFID")), // ??? empty character at start of the file
-                        csvRecord.get("ID"),
-                        csvRecord.get("Nimi"),
-                        csvRecord.get("Namn"),
-                        csvRecord.get("Osoite"),
-                        csvRecord.get("Adress"),
-                        csvRecord.get("Kaupunki"),
-                        csvRecord.get("Stad"),
-                        csvRecord.get("Operaattor"),
-                        Integer.parseInt(csvRecord.get("Kapasiteet")),
-                        Double.parseDouble(csvRecord.get("x")),
-                        Double.parseDouble(csvRecord.get("y"))
-                );
-
-
-            }*/
             return stations;
         } catch (IOException e) {
             throw new RuntimeException("failed to parse CSV input: " + e.getMessage());
@@ -110,6 +86,7 @@ public class CSVFetch {
 
     public List<Journey> csvToJourneys(URLConnection urlConnection) {
 
+        // Might be an issue, if CSV is empty
         InputStream is = null;
 
         try {
@@ -121,24 +98,21 @@ public class CSVFetch {
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              CSVParser csvParser = new CSVParser(fileReader,
                      CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
-
+            // CSVFormat.with methods deprecated, but work for now
             List<Journey> journeys = new ArrayList<>();
 
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
-
-            /*for (CSVRecord csvRecord : csvRecords) {
-                System.out.println(csvRecord);
-            }*/
 
             Iterator<CSVRecord> it = csvRecords.iterator();
 
             while (it.hasNext()) {
                 CSVRecord csvRecord = it.next();
-                if (Double.parseDouble(csvRecord.get("Covered distance (m)")) % 1.0 > 0){
-                    System.out.println("METERBUG " + csvRecord);
+                if (csvRecord.get("Covered distance (m)").isEmpty()) {
+                    System.out.println("NO METERS " + csvRecord);
+                } else if (Double.parseDouble(csvRecord.get("Covered distance (m)")) % 1.0 > 0) {
+                    System.out.println("METERBUG " + csvRecord); //print every record with bugged meters
                 } else if (Integer.parseInt(csvRecord.get("Covered distance (m)")) < 10 ||
                         Integer.parseInt(csvRecord.get("Duration (sec.)")) < 10) {
-                    //System.out.println("SKIP THESE " + csvRecord);
                 } else {
                     Journey journey = new Journey(
                             csvRecord.get("\uFEFFDeparture"),

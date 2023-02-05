@@ -7,8 +7,9 @@ import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface JourneyRepository extends JpaRepository<Journey, Long> {
-    List<Journey> findByDepartureStationId(String departureStationId);
+    Optional<Journey> findByDepartureStationId(String departureStationId);
     Page<Journey> findAll(Pageable pageable);
 }

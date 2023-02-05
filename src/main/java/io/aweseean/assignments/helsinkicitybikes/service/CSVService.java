@@ -8,8 +8,6 @@ import io.aweseean.assignments.helsinkicitybikes.data.repository.StationReposito
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -30,7 +28,10 @@ public class CSVService {
     }
 
     public void saveStations(String url) {
+
+        // Might be an issue, if CSV is empty
         URLConnection urlConnection = null;
+
         try {
             URL csvURL = new URL(url);
             urlConnection = csvURL.openConnection();
@@ -44,7 +45,10 @@ public class CSVService {
     }
 
     public void saveJourneys(String url) {
+
+        // Might be an issue, if CSV is empty
         URLConnection urlConnection = null;
+
         try {
             URL csvURL = new URL(url);
             urlConnection = csvURL.openConnection();

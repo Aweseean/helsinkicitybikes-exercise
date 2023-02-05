@@ -24,18 +24,10 @@ public class JourneyService {
         List<Journey> journeysInBatch = journeysPageable.getContent();
         DecimalFormat df = new DecimalFormat("0.0");
         journeysInBatch.forEach(journey -> {
-            System.out.println(journey);
-            System.out.println("Before: ");
-            System.out.println(journey.getDistanceMeters());
-            System.out.println(journey.getDurationSeconds());
             double km = journey.getDistanceMeters() * 0.001;
             String kmForm = df.format(km);
-            System.out.println(kmForm);
             // rounds seconds to minutes up and down
             int min = (int)Math.round((double) journey.getDurationSeconds() / 60);
-            System.out.println("After: ");
-            System.out.println(km);
-            System.out.println(min);
             journey.setDistanceKilometers(kmForm);
             journey.setDurationSeconds(min);
         });

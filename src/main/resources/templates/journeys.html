@@ -13,54 +13,73 @@
 <body>
 <div th:replace="~{header :: header}"></div>
 <div class="container">
-    <h1 class="text-center">Journeys</h1>
-    <table class="table">
-        <thead>
-            <th scope="col">ID</th>
-            <th scope="col">Departure station ID</th>
-            <th scope="col">Departure station</th>
-            <th scope="col">Return station ID</th>
-            <th scope="col">Return station</th>
-            <th scope="col">Distance (km)</th>
-            <th scope="col">Duration (min)</th>
-        </thead>
-        <tbody>
-            <tr th:each="journey : ${journeys}">
-                <td th:text="${journey.id}">ID</td>
-                <td th:text="${journey.departureStationId}">Departure station ID</td>
-                <td th:text="${journey.departureStation}">Departure station</td>
-                <td th:text="${journey.returnStationId}">Return station ID</td>
-                <td th:text="${journey.returnStation}">Return station</td>
-                <td th:text="${journey.distanceKilometers}">Distance (km)</td>
-                <td th:text="${journey.durationSeconds}">Duration (min)</td>
-            </tr>
-        </tbody>
-    </table>
-    <div th:if="${totalPages > 1}">
-        <div class="row col-sm-10 mx-auto">
-            <div class="col-sm-2">
-                Total Journeys: [[${totalItems}]]
-            </div>
-            <div class="col-sm-1">
-                <a th:if="${currentPage > 1}" th:href="@{'/journeys/'}"> < < </a>
-            </div>
-            <div class="col-sm-1">
-                <a th:if="${currentPage > 1}" th:href="@{'/journeys/' + ${currentPage - 1}}">Previous</a>
-            </div>
-            <div class="col-sm-4 text-center">
-                <span th:each="i: ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1,
-                 currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
-                  <a th:if="${currentPage != i}" th:href="@{'/journeys/' + ${i}}">[[${i}]]</a>
-                  <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
-                </span>
-            </div>
-            <div class="col-sm-1">
-                <a th:if="${currentPage < totalPages}" th:href="@{'/journeys/' + ${currentPage + 1}}">Next</a>
-                <span th:unless="${currentPage < totalPages}">Next</span>
-            </div>
-            <div class="col-sm-1">
-                <a th:if="${currentPage < totalPages}" th:href="@{'/journeys/' + ${totalPages}}"> > > </a>
-                <span th:unless="${currentPage < totalPages}">Last</span>
+    <div class="my-3">
+        <h1 class="text-center">Journeys</h1>
+        <table class="table">
+            <thead>
+                <th scope="col">ID</th>
+                <th scope="col">Departure station ID</th>
+                <th scope="col">Departure station</th>
+                <th scope="col">Return station ID</th>
+                <th scope="col">Return station</th>
+                <th scope="col">Distance (km)</th>
+                <th scope="col">Duration (min)</th>
+            </thead>
+            <tbody>
+                <tr th:each="journey : ${journeys}">
+                    <td th:text="${journey.id}">ID</td>
+                    <td>
+                        <a th:text="${journey.departureStationId}"
+                           th:href="@{'/stations/station/' + ${journey.departureStationId}}">Departure station ID
+                        </a>
+                    </td>
+                    <td>
+                        <a th:text="${journey.departureStation}"
+                           th:href="@{'/stations/station/' + ${journey.departureStationId}}">Departure station
+                        </a>
+                    </td>
+                    <td>
+                        <a th:text="${journey.returnStationId}"
+                           th:href="@{'/stations/station/' + ${journey.returnStationId}}">Return station ID
+                        </a>
+                    </td>
+                    <td>
+                        <a th:text="${journey.returnStation}"
+                           th:href="@{'/stations/station/' + ${journey.returnStationId}}">Return station
+                        </a>
+                    </td>
+                    <td th:text="${journey.distanceKilometers}">Distance (km)</td>
+                    <td th:text="${journey.durationSeconds}">Duration (min)</td>
+                </tr>
+            </tbody>
+        </table>
+        <div th:if="${totalPages > 1}">
+            <div class="row col-sm-10 mx-auto">
+                <div  class="col-sm-2">
+                    <span>Total Journeys:</span>
+                    <span th:text="${#numbers.formatInteger(totalItems,3,'COMMA')}">[[${totalItems}]]</span>
+                </div>
+                <div class="col-sm-1">
+                    <a th:if="${currentPage > 1}" th:href="@{'/journeys/'}"> < < </a>
+                </div>
+                <div class="col-sm-1">
+                    <a th:if="${currentPage > 1}" th:href="@{'/journeys/' + ${currentPage - 1}}">Previous</a>
+                </div>
+                <div class="col-sm-4 text-center">
+                    <span th:each="i: ${#numbers.sequence(currentPage > 2 ? currentPage - 2 : 1,
+                     currentPage + 2 < totalPages ? currentPage + 2 : totalPages)}">
+                      <a th:if="${currentPage != i}" th:href="@{'/journeys/' + ${i}}">[[${i}]]</a>
+                      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                    </span>
+                </div>
+                <div class="col-sm-1">
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/journeys/' + ${currentPage + 1}}">Next</a>
+                    <span th:unless="${currentPage < totalPages}">Next</span>
+                </div>
+                <div class="col-sm-1">
+                    <a th:if="${currentPage < totalPages}" th:href="@{'/journeys/' + ${totalPages}}"> > > </a>
+                    <span th:unless="${currentPage < totalPages}">Last</span>
+                </div>
             </div>
         </div>
     </div>

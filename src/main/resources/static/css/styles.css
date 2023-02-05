@@ -1,6 +1,15 @@
 body {
     font-family: 'Figtree', sans-serif;;
 }
+a {
+    color: inherit;;
+}
+tbody a {
+    text-decoration: underline dotted;
+    text-decoration-color: #fcbc19;
+    text-decoration-thickness: 0.2rem;
+    text-underline-offset: 0.3rem;
+}
 .navbar {
     background-color: #fcbc19;
     --bs-navbar-padding-y: 0rem;
@@ -16,3 +25,4 @@ body {
     --bs-btn-font-size: 1.5rem;
     --bs-btn-border-width: 0rem;
 }
+
