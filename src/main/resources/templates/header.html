@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-md mb-1" th:fragment="header">
+    <div class="container-xxl">
+        <a class="navbar-brand" href="/">
+            <img th:src="@{/images/Citybikes_hki_epo_svg.svg}" alt="Helsinki City Bikes" width="80" height="80">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${module == 'stations' ? 'active' : ''}" href="#" th:href="@{/stations/}">Stations</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:classappend="${module == 'journeys' ? 'active' : ''}" href="#" th:href="@{/journeys/}">Journeys</a>
+                </li>
+            </ul>
+        </div>
+        <div class="d-flex flex-row-reverse">
+            <div sec:authorize="isAuthenticated()">
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit" class="btn">Logout</button>
+                </form>
+            </div>
+            <div sec:authorize="isAnonymous()">
+                <a class="btn" href="#" th:href="@{/login}">Login</a>
+            </div>
+        </div>
+    </div>
+</nav>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -23,30 +23,32 @@ import org.springframework.stereotype.Component;
 public class CSVFetch {
 
     public static String TYPE = "text/csv";
+    public static String TYPE2 = "application/octet-stream";
 
     public static boolean hasCSVFormat(URLConnection urlConnection) {
 
-        if (!TYPE.equals(urlConnection.getContentType())) {
-            return false;
+        if (TYPE.equals(urlConnection.getContentType()) ^ TYPE2.equals(urlConnection.getContentType())) {
+            System.out.println(urlConnection.getContentType());
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     public List<Station> csvToStations(String url) {
+
         InputStream is = null;
-        {
-            try {
-                URL csvURL = new URL(url);
-                URLConnection urlConnection = csvURL.openConnection();
-                hasCSVFormat(urlConnection);
-                is = urlConnection.getInputStream();
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+
+        try {
+            URL csvURL = new URL(url);
+            URLConnection urlConnection = csvURL.openConnection();
+            is = urlConnection.getInputStream();
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              CSVParser csvParser = new CSVParser(fileReader,
                      CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
@@ -106,20 +108,16 @@ public class CSVFetch {
         }
     }
 
-    public List<Journey> csvToJourneys(String url) {
+    public List<Journey> csvToJourneys(URLConnection urlConnection) {
+
         InputStream is = null;
-        {
-            try {
-                URL csvURL = new URL(url);
-                URLConnection urlConnection = csvURL.openConnection();
-                hasCSVFormat(urlConnection);
-                is = urlConnection.getInputStream();
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+
+        try {
+            is = urlConnection.getInputStream();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              CSVParser csvParser = new CSVParser(fileReader,
                      CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
@@ -136,17 +134,11 @@ public class CSVFetch {
 
             while (it.hasNext()) {
                 CSVRecord csvRecord = it.next();
-                if (Double.parseDouble(csvRecord.get("Covered distance (m)")) % 1.0 > 0 /*== 10566.67*/){
-                    System.out.println("METRIBUGI " + csvRecord);
-                /*} else if (Double.parseDouble(csvRecord.get("Covered distance (m)")) == 3358.33) {
-                    System.out.println("METRIBUGI 2 " + csvRecord);
-                } else if (Double.parseDouble(csvRecord.get("Covered distance (m)")) == 1883.33) {
-                    System.out.println("METRIBUGI 3 " + csvRecord);
-                } else if (Double.parseDouble(csvRecord.get("Covered distance (m)")) == 3741.67) {
-                    System.out.println("METRIBUGI 4 " + csvRecord);*/
+                if (Double.parseDouble(csvRecord.get("Covered distance (m)")) % 1.0 > 0){
+                    System.out.println("METERBUG " + csvRecord);
                 } else if (Integer.parseInt(csvRecord.get("Covered distance (m)")) < 10 ||
                         Integer.parseInt(csvRecord.get("Duration (sec.)")) < 10) {
-                    System.out.println("SKIPPAA NÄMÄ " + csvRecord);
+                    //System.out.println("SKIP THESE " + csvRecord);
                 } else {
                     Journey journey = new Journey(
                             csvRecord.get("\uFEFFDeparture"),

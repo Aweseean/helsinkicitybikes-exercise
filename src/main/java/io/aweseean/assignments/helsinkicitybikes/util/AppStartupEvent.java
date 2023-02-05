@@ -1,41 +1,48 @@
 package io.aweseean.assignments.helsinkicitybikes.util;
 
-import io.aweseean.assignments.helsinkicitybikes.data.model.Station;
 import io.aweseean.assignments.helsinkicitybikes.data.repository.JourneyRepository;
 import io.aweseean.assignments.helsinkicitybikes.data.repository.StationRepository;
 import io.aweseean.assignments.helsinkicitybikes.service.CSVService;
+import io.aweseean.assignments.helsinkicitybikes.service.JourneyService;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.List;
 
 @Component
 public class AppStartupEvent implements ApplicationListener<ApplicationReadyEvent> {
 
     private final JourneyRepository journeyRepository;
     private final StationRepository stationRepository;
+    private final JourneyService journeyService;
     private final CSVService csvService;
 
 
 
-    public AppStartupEvent(JourneyRepository journeyRepository, StationRepository stationRepository, CSVService csvService) {
+    public AppStartupEvent(JourneyRepository journeyRepository, StationRepository stationRepository, JourneyService journeyService, CSVService csvService) {
         this.journeyRepository = journeyRepository;
         this.stationRepository = stationRepository;
+        this.journeyService = journeyService;
         this.csvService = csvService;
     }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
 
-        String url = "https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv";
-        csvService.saveJourneys(url);
+        String url = "https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv";
+        String url2 = "https://dev.hsl.fi/citybikes/od-trips-2021/2021-05.csv";
 
-        journeyRepository.findByDepartureStationId("004").forEach(System.out::println);
+        csvService.saveStations(url);
+        csvService.saveJourneys(url2);
+
+        //journeyService.getAllJourneysPageable();
+
+        /*<Journey> journeys = journeyRepository.findAll(PageRequest.of(0, 10));
+        System.out.println("\nTotal number of journeys=" + journeys.getTotalElements());
+        System.out.println("Total number of 10-element-pages=" + journeys.getTotalPages());
+        journeys.forEach(System.out::println);
+
+        /*journeyRepository.findByDepartureStationId("004").forEach(System.out::println);
+        stationRepository.findAll().forEach(System.out::println);
 
         /*String url = "https://opendata.arcgis.com/datasets/726277c507ef4914b0aec3cbcfcbfafc_0.csv";
         csvService.save(url);

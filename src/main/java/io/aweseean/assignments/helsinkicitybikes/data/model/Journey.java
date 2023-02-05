@@ -26,6 +26,8 @@ public class Journey {
     private int distanceMeters;
     @Column(name="duration_seconds")
     private int durationSeconds;
+    @Transient
+    private String distanceKilometers;
 
     public Journey(String departureDate, String returnDate,
                    String departureStationId, String departureStation,
@@ -130,6 +132,12 @@ public class Journey {
         this.durationSeconds = durationSeconds;
     }
 
+    public String getDistanceKilometers() {
+        return distanceKilometers;
+    }
+
+    public void setDistanceKilometers(String distanceKilometers) { this.distanceKilometers = distanceKilometers;}
+
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Journey{");
@@ -145,4 +153,6 @@ public class Journey {
         sb.append('}');
         return sb.toString();
     }
+
+
 }

@@ -7,8 +7,11 @@ import io.aweseean.assignments.helsinkicitybikes.data.model.Station;
 import io.aweseean.assignments.helsinkicitybikes.data.repository.StationRepository;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 @Service
@@ -27,13 +30,31 @@ public class CSVService {
     }
 
     public void saveStations(String url) {
-        List<Station> stations = csvFetch.csvToStations(url);
-        stationRepository.saveAll(stations);
+        URLConnection urlConnection = null;
+        try {
+            URL csvURL = new URL(url);
+            urlConnection = csvURL.openConnection();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (CSVFetch.hasCSVFormat(urlConnection)) {
+            List<Station> stations = csvFetch.csvToStations(url);
+            stationRepository.saveAll(stations);
+        }
     }
 
     public void saveJourneys(String url) {
-        List<Journey> journeys = csvFetch.csvToJourneys(url);
-        journeyRepository.saveAll(journeys);
+        URLConnection urlConnection = null;
+        try {
+            URL csvURL = new URL(url);
+            urlConnection = csvURL.openConnection();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        if (CSVFetch.hasCSVFormat(urlConnection)) {
+            List<Journey> journeys = csvFetch.csvToJourneys(urlConnection);
+            journeyRepository.saveAll(journeys);
+        }
     }
 
     public List<Station> getAllStations() {
