@@ -1,5 +1,5 @@
 # Helsinki City Bikes application
-This is the Helsinki City Bikes application made for Solita Dev Academy Finland 2023 pre-assignment.
+This is the Helsinki City Bikes application made as an exercise. Based on Solita Dev Academy Finland pre-assignment.  https://github.com/solita/dev-academy-2023-exercise
 
 Made with Java, Spring Boot, Thymeleaf and Bootstrap.
 
