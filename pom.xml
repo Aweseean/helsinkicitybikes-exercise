@@ -11,6 +11,7 @@
 	<groupId>io.aweseean.assignments</groupId>
 	<artifactId>helsinkicitybikes</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<!--<packaging>war</packaging>-->
 	<name>helsinkicitybikes</name>
 	<description>Helsinki City Bike Service</description>
 	<properties>
