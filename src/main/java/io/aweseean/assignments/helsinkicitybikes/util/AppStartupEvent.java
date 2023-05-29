@@ -5,6 +5,8 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 @Component
 public class AppStartupEvent implements ApplicationListener<ApplicationReadyEvent> {
 
@@ -28,8 +30,8 @@ public class AppStartupEvent implements ApplicationListener<ApplicationReadyEven
 
         csvService.saveStations(stationURL);
         csvService.saveJourneys(journeyURL1);
-        csvService.saveJourneys(journeyURL2);
-        csvService.saveJourneys(journeyURL3);
+        //csvService.saveJourneys(journeyURL2);
+        //csvService.saveJourneys(journeyURL3);
 
 
         /*test stations

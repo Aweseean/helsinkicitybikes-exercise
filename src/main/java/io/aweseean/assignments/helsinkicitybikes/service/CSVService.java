@@ -41,6 +41,7 @@ public class CSVService {
         if (CSVFetch.hasCSVFormat(urlConnection)) {
             List<Station> stations = csvFetch.csvToStations(url);
             stationRepository.saveAll(stations);
+            System.out.println("Stations added!");
         }
     }
 
@@ -58,6 +59,7 @@ public class CSVService {
         if (CSVFetch.hasCSVFormat(urlConnection)) {
             List<Journey> journeys = csvFetch.csvToJourneys(urlConnection);
             journeyRepository.saveAll(journeys);
+            System.out.println("Journeys added!");
         }
     }
 

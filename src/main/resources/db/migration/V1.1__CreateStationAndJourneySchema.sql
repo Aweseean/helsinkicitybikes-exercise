@@ -25,3 +25,4 @@ CREATE TABLE journeys (
     distance_meters INT NOT NULL,
     duration_seconds INT NOT NULL
 );
+
