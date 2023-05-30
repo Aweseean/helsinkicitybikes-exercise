@@ -7,8 +7,9 @@ import jakarta.persistence.*;
 @Table(name="journeys")
 public class Journey {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="journey_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "journeys_generator")
+    @SequenceGenerator(name="journeys_generator", sequenceName = "journeys_seq", allocationSize = 1)
+    @Column(name="journey_id", updatable = false, nullable = false)
     private Long id;
     @Column(name="departure_date")
     private String departureDate;

@@ -14,8 +14,10 @@ CREATE TABLE stations(
     coordinate_y decimal(8,6) NOT NULL
 );
 
+CREATE SEQUENCE journeys_seq INCREMENT 1 START 1;
+
 CREATE TABLE journeys (
-    journey_id bigint AUTO_INCREMENT PRIMARY KEY,
+    journey_id BIGINT PRIMARY KEY NOT NULL,
     departure_date VARCHAR(19) NOT NULL,
     return_date VARCHAR(19) NOT NULL,
     departure_station_id VARCHAR(3) NOT NULL,

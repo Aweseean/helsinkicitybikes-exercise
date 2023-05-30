@@ -51,8 +51,8 @@ public class CSVFetch {
 
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              CSVParser csvParser = new CSVParser(fileReader,
-                     CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
-            // CSVFormat.with methods deprecated, but work for now
+                     CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim())) {
+            // CSVFormat.with methods deprecated, but they work for now
             List<Station> stations = new ArrayList<>();
 
             Iterable<CSVRecord> csvRecords = csvParser.getRecords();
@@ -97,7 +97,7 @@ public class CSVFetch {
 
         try (BufferedReader fileReader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
              CSVParser csvParser = new CSVParser(fileReader,
-                     CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim());) {
+                     CSVFormat.DEFAULT.withFirstRecordAsHeader().withIgnoreHeaderCase().withTrim())) {
             // CSVFormat.with methods deprecated, but work for now
             List<Journey> journeys = new ArrayList<>();
 
