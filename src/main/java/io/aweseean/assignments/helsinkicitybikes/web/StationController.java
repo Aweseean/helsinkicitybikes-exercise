@@ -5,6 +5,7 @@ import io.aweseean.assignments.helsinkicitybikes.data.repository.StationReposito
 import io.aweseean.assignments.helsinkicitybikes.service.StationService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,8 +36,8 @@ public class StationController {
 
     @GetMapping("/{page}")
     public String getAllStationsPageable(@PathVariable(value = "page") int page, Model model){
-        Page<Station> stationsPageable = this.stationService.getAllStationsForView(PageRequest.of(page - 1, 15));
-        List<Station> stations = stationsPageable.getContent();
+        Page<Station> stations = this.stationService.getAllStationsForView(PageRequest.of(page - 1, 15, Sort.by("fid")));
+        Page<Station> stationsPageable = this.stationRepository.findAll(PageRequest.of(page - 1, 15));
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", stationsPageable.getTotalPages());
         model.addAttribute("totalItems", stationsPageable.getTotalElements());

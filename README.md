@@ -3,6 +3,14 @@ This is the Helsinki City Bikes application made as an exercise. Based on Solita
 
 Made with Java, Spring Boot, Thymeleaf and Bootstrap.
 
+### Dockerized PostgreSQL
+
+Run PostgreSQL image with Docker
+
+``
+docker run --detach --name hcb-postgres -p 5432:5432 -e POSTGRES_PASSWORD=hcb_pass -e POSTGRES_USER=hcb_user -e POSTGRES_DB=helsinkicitybikes -d postgres
+``
+
 ### How to build and run with Docker
 
 Package with Maven:
@@ -11,7 +19,7 @@ Package with Maven:
 mvn clean package -DskipTests=true
 ``
 
-Build Docker image:
+Build Docker image (in the project folder directory):
 
 ``
 docker build -t helsinkicitybikes .

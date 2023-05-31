@@ -39,6 +39,8 @@ public class CSVFetch {
         // Might be an issue, if CSV is empty
         InputStream is = null;
 
+        int rejectedStations = 0;
+
         try {
             URL csvURL = new URL(url);
             URLConnection urlConnection = csvURL.openConnection();
@@ -78,6 +80,7 @@ public class CSVFetch {
                 );
                 stations.add(station);
             }
+            System.out.println("Rejected station inserts: " + rejectedStations);
             return stations;
         } catch (IOException e) {
             throw new RuntimeException("failed to parse CSV input: " + e.getMessage());
@@ -88,6 +91,8 @@ public class CSVFetch {
 
         // Might be an issue, if CSV is empty
         InputStream is = null;
+
+        int rejectedJourneys = 0;
 
         try {
             is = urlConnection.getInputStream();
@@ -107,12 +112,13 @@ public class CSVFetch {
 
             while (it.hasNext()) {
                 CSVRecord csvRecord = it.next();
-                if (csvRecord.get("Covered distance (m)").isEmpty()) {
-                    System.out.println("NO METERS " + csvRecord);
-                } else if (Double.parseDouble(csvRecord.get("Covered distance (m)")) % 1.0 > 0) {
-                    System.out.println("METERBUG " + csvRecord); //print every record with bugged meters
+                if (csvRecord.get("Covered distance (m)").isEmpty()) { // No meters
+                    rejectedJourneys++;
+                } else if (Double.parseDouble(csvRecord.get("Covered distance (m)")) % 1.0 > 0) { // Meterbug
+                    rejectedJourneys++;
                 } else if (Integer.parseInt(csvRecord.get("Covered distance (m)")) < 10 ||
-                        Integer.parseInt(csvRecord.get("Duration (sec.)")) < 10) {
+                        Integer.parseInt(csvRecord.get("Duration (sec.)")) < 10) { // Distance/duration too short
+                    rejectedJourneys++;
                 } else {
                     Journey journey = new Journey(
                             csvRecord.get("\uFEFFDeparture"),
@@ -126,8 +132,8 @@ public class CSVFetch {
                     );
                     journeys.add(journey);
                 }
-
             }
+            System.out.println("Rejected journey inserts: " + rejectedJourneys);
             return journeys;
         } catch (IOException e) {
             throw new RuntimeException("failed to parse CSV input: " + e.getMessage());

@@ -39,9 +39,11 @@ public class CSVService {
             throw new RuntimeException(e);
         }
         if (CSVFetch.hasCSVFormat(urlConnection)) {
-            List<Station> stations = csvFetch.csvToStations(url);
-            stationRepository.saveAll(stations);
-            System.out.println("Stations added!");
+            List<Station> stations = this.csvFetch.csvToStations(url);
+            this.stationRepository.saveAll(stations);
+            System.out.println("Stations from "+ url +" added!");
+        } else {
+            System.out.println("File is not CSV!");
         }
     }
 
@@ -57,9 +59,11 @@ public class CSVService {
             throw new RuntimeException(e);
         }
         if (CSVFetch.hasCSVFormat(urlConnection)) {
-            List<Journey> journeys = csvFetch.csvToJourneys(urlConnection);
-            journeyRepository.saveAll(journeys);
+            List<Journey> journeys = this.csvFetch.csvToJourneys(urlConnection);
+            this.journeyRepository.saveAll(journeys);
             System.out.println("Journeys added!");
+        } else {
+            System.out.println("File is not CSV!");
         }
     }
 

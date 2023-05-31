@@ -5,6 +5,7 @@ import io.aweseean.assignments.helsinkicitybikes.data.repository.JourneyReposito
 import io.aweseean.assignments.helsinkicitybikes.service.JourneyService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ public class JourneyController {
 
     @GetMapping("/{page}")
     public String getAllJourneysPageable(@PathVariable(value = "page") int page, Model model){
-        List<Journey> journeys = this.journeyService.getAllJourneysForView(PageRequest.of(page - 1, 15));
+        List<Journey> journeys = this.journeyService.getAllJourneysForView(PageRequest.of(page - 1, 15, Sort.by("id")));
         Page<Journey> journeysPageable = this.journeyRepository.findAll(PageRequest.of(page - 1, 15));
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", journeysPageable.getTotalPages());
