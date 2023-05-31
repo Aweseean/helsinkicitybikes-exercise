@@ -11,7 +11,23 @@ Run PostgreSQL image with Docker
 docker run --detach --name hcb-postgres -p 5432:5432 -e POSTGRES_PASSWORD=hcb_pass -e POSTGRES_USER=hcb_user -e POSTGRES_DB=helsinkicitybikes -d postgres
 ``
 
-### How to build and run with Docker
+### How to build and run (without Docker)
+
+Package with Maven:
+
+``
+mvn clean package -DskipTests=true
+``
+
+Run the jar file:
+
+``
+java -jar target/helsinkicitybikes-0.0.1-SNAPSHOT.jar
+``
+
+Open http:/localhost:8080/ with browser.
+
+### How to build and run with Docker (currently not working due to connection error to PostgreSQL container)
 
 Package with Maven:
 
@@ -31,14 +47,3 @@ Run Docker image:
 docker run --name hcb-app -p 8080:8080 -d helsinkicitybikes
 ``
 
-### How to build and run (without Docker)
-
-Package with Maven (as shown previously above).
-
-Run the jar file:
-
-``
-java -jar target/helsinkicitybikes-0.0.1-SNAPSHOT.jar
-``
-
-Open http:/localhost:8080/ with browser.
